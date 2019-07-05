@@ -1,0 +1,12 @@
+general:
+  host: localhost
+  port: 8888
+
+requests:
+- title: send del req. to /test
+  type: DELETE
+  path: /test
+
+- title: send post req. to /test
+  type: POST
+  path: /test
