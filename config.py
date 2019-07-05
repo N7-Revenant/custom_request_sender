@@ -8,29 +8,37 @@ from typing import Any, Callable
 from logger import log
 
 
+class Request:
+    def __init__(self, req_title, req_type, req_path):
+        self.title = req_title
+        self.type = req_type
+        self.path = req_path
+
+
 class Config:
     """Класс, содержащий словарь с конфигурацией и методы доступа к ее элементам
 
     :param conf_dict: Словарь с конфигурацией
     """
-    __slots__ = ['__config']
+    __slots__ = ['__host', '__port', '__requests']
 
     def __init__(self, conf_dict: dict):
-        self.__config = conf_dict
+        self.__host = conf_dict['general']['host']
+        self.__port = conf_dict['general']['port']
+        self.__requests = {}
+        for count, item in enumerate(conf_dict['requests'], start=1):
+            self.__requests.update({str(count): Request(req_title=item['title'],
+                                                        req_type=item['type'],
+                                                        req_path=item['path'])})
 
-    # def get_acl_ws(self) -> list:
-    #     """Получить список подсетей, с которых разрешено выполнять WS-подключения
-    #
-    #     :returns: Список разрешенных подсетей
-    #     """
-    #     try:
-    #         res = self.__config['acl']['ws']
-    #     except Exception as exc:
-    #         log("Error happened when accessing <acl-ws> list:", logging.WARNING)
-    #         log(str(exc), logging.WARNING)
-    #         log("Returning empty list", logging.WARNING)
-    #         res = []
-    #     return res
+    def get_host(self) -> str:
+        return self.__host
+
+    def get_port(self) -> str:
+        return self.__port
+
+    def get_requests(self) -> dict:
+        return self.__requests
 
 
 class ConfigurationSettings:
