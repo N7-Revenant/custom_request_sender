@@ -47,7 +47,7 @@ def configure_logging(log_path: str, log_level: str, name: str='') -> None:
     __Vars.logger = logger
 
 
-def log(s: str, lvl: int=logging.INFO) -> None:
+def log(*s: str, lvl: int=logging.INFO) -> None:
     """Запись информации в лог
 
     Логгирование информации осуществляется с помощью логгера, содержащегося во внутреннем хранилище модуля. Если
@@ -58,6 +58,6 @@ def log(s: str, lvl: int=logging.INFO) -> None:
     """
     logger = __Vars.logger
     if logger is not None:
-        logger.log(lvl, s)
+        logger.log(lvl, '\n'.join(s))
     else:
-        print(s)
+        print(*s)
