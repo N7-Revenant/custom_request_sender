@@ -9,11 +9,31 @@ requests:
   headers:
     Content-type: application/json
   body:
-    param1: val1
-    param2: val2
+    ip: 172.24.5.25
 
-- title: send POST request to /test
+- title: send POST (a/v) request to /test
   type: POST
   path: /test
   headers:
     Content-type: application/json
+  body:
+    ip: 172.24.5.25
+    rec_type: audio/video
+
+- title: send POST (a) request to /test
+  type: POST
+  path: /test
+  headers:
+    Content-type: application/json
+  body:
+    ip: 172.24.5.25
+    rec_type: audio
+
+- title: send POST (v) request to /test
+  type: POST
+  path: /test
+  headers:
+    Content-type: application/json
+  body:
+    ip: 172.24.5.25
+    rec_type: video
