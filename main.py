@@ -1,4 +1,5 @@
 import sys
+import json
 import argparse
 import traceback
 import http.client
@@ -35,7 +36,8 @@ def main():
         if command_id in requests:
             connection = http.client.HTTPConnection(host=conf.get_host(), port=conf.get_port())
             req_settings = requests[command_id]
-            connection.request(req_settings.type, req_settings.path)
+            connection.request(req_settings.type, req_settings.path,
+                               json.dumps(req_settings.body), req_settings.headers)
             response = connection.getresponse()
             log("Status: {} and reason: {}".format(response.status, response.reason))
             log("Response body:", response.read().decode(), '\n')

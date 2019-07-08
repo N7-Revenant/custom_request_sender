@@ -6,7 +6,14 @@ requests:
 - title: send DELETE request to /test
   type: DELETE
   path: /test
+  headers:
+    Content-type: application/json
+  body:
+    param1: val1
+    param2: val2
 
 - title: send POST request to /test
   type: POST
   path: /test
+  headers:
+    Content-type: application/json

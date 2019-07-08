@@ -9,10 +9,12 @@ from logger import log
 
 
 class Request:
-    def __init__(self, req_title, req_type, req_path):
+    def __init__(self, req_title, req_type, req_path, req_body, req_headers):
         self.title = req_title
         self.type = req_type
         self.path = req_path
+        self.body = req_body
+        self.headers = req_headers
 
 
 class Config:
@@ -27,9 +29,11 @@ class Config:
         self.__port = conf_dict['general']['port']
         self.__requests = {}
         for count, item in enumerate(conf_dict['requests'], start=1):
-            self.__requests.update({str(count): Request(req_title=item['title'],
-                                                        req_type=item['type'],
-                                                        req_path=item['path'])})
+            self.__requests.update({str(count): Request(req_title=item.get('title'),
+                                                        req_type=item.get('type'),
+                                                        req_path=item.get('path'),
+                                                        req_body=item.get('body', {}),
+                                                        req_headers=item.get('headers', {}))})
 
     def get_host(self) -> str:
         return self.__host
@@ -73,8 +77,12 @@ class ConfigurationSettings:
                     'type': 'dict',
                     'schema': {
                         'title': {'type': 'string'},
-                        'type': {'type': 'string', 'allowed': ['DELETE', 'POST']},
-                        'path': {'type': 'string'}
+                        'type': {'type': 'string', 'allowed': ['GET', 'POST', 'PUT', 'DELETE']},
+                        'path': {'type': 'string'},
+                        'body': {'type': 'dict',
+                                 'nullable': True},
+                        'headers': {'type': 'dict',
+                                    'nullable': True}
                     }
                 }
             }
