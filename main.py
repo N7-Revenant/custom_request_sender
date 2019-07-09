@@ -29,7 +29,7 @@ def main():
         try:
             command_id = input('Input command code: ')
         except:
-            log("Stopping app because of ")
+            log("Stopping app because of: ")
             traceback.print_exc(file=sys.stdout)
             break
 
