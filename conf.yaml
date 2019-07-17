@@ -1,37 +1,61 @@
 general:
   host: localhost
-  port: 8888
+  port: 7337
 
 requests:
-- title: send DELETE request to /test
+- title: send DELETE request to /recording
   type: DELETE
-  path: /test
+  path: /recording
   headers:
     Content-type: application/json
   body:
-    ip: 172.24.5.25
+    ip: 172.24.5.26
 
-- title: send POST (a/v) request to /test
-  type: POST
-  path: /test
+- title: send DELETE request to /recording (missing IP)
+  type: DELETE
+  path: /recording
   headers:
     Content-type: application/json
   body:
-    ip: 172.24.5.25
+
+- title: send DELETE request to /recording (invalid IP)
+  type: DELETE
+  path: /recording
+  headers:
+    Content-type: application/json
+  body:
+    ip: 172.24.5.25.7
+
+- title: send POST (a/v) request to /recording
+  type: POST
+  path: /recording
+  headers:
+    Content-type: application/json
+  body:
+    ip: 172.24.5.26
     rec_type: audio/video
 
-- title: send POST (a) request to /test
+- title: send POST (a/v) request to /recording (wrong params)
   type: POST
-  path: /test
+  path: /recording
+  headers:
+    Content-type: application/json
+  body:
+    ip: 172.24.
+    rec_type: auddeo
+
+- title: send POST (a) request to /recording
+  type: POST
+  path: /recording
   headers:
     Content-type: application/json
   body:
     ip: 172.24.5.25
     rec_type: audio
 
-- title: send POST (v) request to /test
+- title: send POST (v) request to /recording
   type: POST
-  path: /test
+  path: /recording
   headers:
     Content-type: application/json
   body:

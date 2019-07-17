@@ -1,5 +1,6 @@
 import sys
 import json
+import logging
 import argparse
 import traceback
 import http.client
@@ -32,16 +33,19 @@ def main():
             log("Stopping app because of: ")
             traceback.print_exc(file=sys.stdout)
             break
-
         if command_id in requests:
-            connection = http.client.HTTPConnection(host=conf.get_host(), port=conf.get_port())
-            req_settings = requests[command_id]
-            connection.request(req_settings.type, req_settings.path,
-                               json.dumps(req_settings.body), req_settings.headers)
-            response = connection.getresponse()
-            log("Status: {} and reason: {}".format(response.status, response.reason))
-            log("Response body:", response.read().decode(), '\n')
-            connection.close()
+            try:
+                connection = http.client.HTTPConnection(host=conf.get_host(), port=conf.get_port())
+                req_settings = requests[command_id]
+                connection.request(req_settings.type, req_settings.path,
+                                   json.dumps(req_settings.body), req_settings.headers)
+                response = connection.getresponse()
+                log("Status: {} and reason: {}".format(response.status, response.reason))
+                log("Response body:", response.read().decode(), '\n')
+                connection.close()
+            except Exception as exc:
+                log('Unable to send request', lvl=logging.WARNING)
+                log(str(exc), lvl=logging.WARNING)
         else:
             if command_id != '0':
                 log("Unknown command code!", '\n')
